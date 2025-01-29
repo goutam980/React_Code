@@ -1,61 +1,48 @@
-
-const express = require("express");
-const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
-
-
-const { UserModel } = require("./db");
-
-
-const app = express();
-
-
-app.use(express.json());
-
-
-mongoose.connect("mongodb+srv://100xdevs:WvaTca0509mb90YX@cluster0.ossjd.mongodb.net/todo-harkirat-2222");
-const JWT_SECRET = "hellobacchomajaloclasska";
-app.post("/signup", async function (req, res) {
-    const { email, password, name } = req.body;
-
-    try {
-        await UserModel.create({ email, password, name });
-        res.json({ message: "You are signed up!" });
-    } catch (error) {
-        res.status(400).json({ message: "User already exists!" });
-    }
-});
-
-app.post("/signin", async function (req, res) {
-    const { email, password } = req.body;
-
-    try {
-        const user = await UserModel.findOne({ email, password });
-
-        if (user) {
-            const token = jwt.sign({ id: user._id.toString() }, JWT_SECRET);
-            res.json({ token, message: "You are signed in!" });
-        } else {
-            res.status(403).json({ message: "Invalid Credentials!" });
+"use strict";
+// // let firstName: string = "Goutam";
+// // let lastName: string = "Tiwari"; // 
+// // console.log("Hello", firstName)
+// // function greet(firstName) {
+// //     console.log("hello" + firstName);
+// // }
+// // function sum2(a: number, b: number) {
+// //     return (a + b)
+// // }
+// // let a = sum2(2, 2)
+// // console.log(a)
+// // function sum(a: number, b: number): number {
+// // }
+// // interface User {
+// //     name: string,
+// //     age: number,
+// //     address: {
+// //         city: 
+// //     }
+// // }
+// // Union vs intersaction 
+// type GoodUser = {
+//     name: string,
+//     gift: string
+// }
+// type BadUser = {
+//     name: string,
+//     loan: string
+// }
+// type User = GoodUser | BadUser;
+// const user: User = {
+//     name: "naman",
+//     loan: "1000000"
+// }
+// console.log(user)
+function getMax(nums) {
+    let maxValue = -10000000;
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] > maxValue) {
+            maxValue = nums[i];
         }
-    } catch (error) {
-        res.status(500).json({ message: "An error occurred during signin." });
     }
-});
-function auth(req, res, next) {
-    const token = req.headers.authorization;
-
-    try {
-        const decodedData = jwt.verify(token, JWT_SECRET);
-        if (decodedData) {
-            req.userId = decodedData.id;
-            next();
-        } else {
-            res.status(403).json({ message: "Invalid Token!" });
-        }
-    } catch (error) {
-        res.status(403).json({ message: "Invalid Token!" });
-    }
+    return maxValue;
 }
-
-app.listen(3000);
+const value = getMax([1, 2, 3, 4, 5, 6, 7, 67, 88, 3, 1, 1, 1, 2, 2, 3, 3, 4,]);
+console.log(value);
+console.log("he this is the new world");
